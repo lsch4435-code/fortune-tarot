@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
+  const pageType = document.body.dataset.page || "menu";
+
+  // 메인 메뉴(index)는 JS 필요 없음
+  if (pageType === "menu") return;
+
   const nameInput = document.getElementById("nameInput");
   const moodSelect = document.getElementById("moodSelect");
   const ageInput = document.getElementById("ageInput");
@@ -10,8 +15,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const resultText = document.getElementById("resultText");
   const resultHint = document.getElementById("resultHint");
 
+  if (!fortuneBtn) return;
+
   // ------------------------------
-  // 1. 기본 운세 문장들
+  // 1. 운세 문장들
   // ------------------------------
 
   const loveFortunes = [
@@ -74,7 +81,23 @@ document.addEventListener("DOMContentLoaded", function () {
     "오늘은 새로운 걸 무리해서 시작하기보다는, {name}님이 이미 하고 있는 것들을 조금만 더 다듬는 데 운이 들어와 있어요. 마무리에 신경 써 보세요. 🎀"
   ];
 
-  // 기본 힌트
+  // 재물운
+  const moneyFortunes = [
+    "{name}님의 오늘 재물운은 {mood} 흐름이에요. 크게 들어오는 돈보다는, 새어 나가는 돈을 잘 막는 게 핵심이에요. 💰",
+    "작은 수입이나 알바, 용돈, 급여 중에서 예상 못 한 부분이 생길 수 있어요. {name}님이 했던 노력이 조금은 숫자로 보일 수 있는 날이에요.",
+    "오늘은 지출을 정리해 보면 좋은 날이에요. {name}님이 평소에 어디에 돈을 많이 쓰는지 한 번 정리해 보면, 다음 달이 훨씬 편해질 거예요.",
+    "크게 쓰기보다는, 필요한 곳에만 깔끔하게 쓰는 게 재물운을 올려줘요. {name}님에게 진짜 필요한 지출인지 한 번 더 생각해 보면 좋아요.",
+    "지금 하는 공부나 일, 포트폴리오가 나중에 돈으로 돌아올 가능성이 높아지는 흐름이에요. 오늘 조금만 더 집중해 보세요.",
+    "오늘은 '공짜'나 '할인'이라는 말에 혹해서 충동구매를 하기 쉽지만, {name}님이 진짜 원하던 물건인지 확인해 보면 좋아요.",
+    "갑작스러운 지출이 생길 수 있지만, 미리 대비하려는 마음가짐만으로도 피해를 줄일 수 있어요. 지갑보다 머리를 먼저 여는 날이에요.",
+    "재물운 자체는 나쁘지 않지만, {name}님의 컨디션이 지쳐 있다면 쓸데없는 쇼핑으로 스트레스를 풀 수 있어요. 다른 방법을 먼저 찾아보면 좋아요.",
+    "오늘은 사소한 절약이 쌓이면 나중에 꽤 의미 있는 금액이 될 수 있는 흐름이에요. 간단한 다이어트처럼, '돈 다이어트'도 시작해 보기 좋을지도요.",
+    "주변 사람과 돈 얘기를 할 때는 특히 조심해야 해요. 농담으로 던진 말도 오해를 부를 수 있는 날이라, 정리를 분명하게 해 두는 게 좋아요.",
+    "지금 갖고 싶은 것보다, 앞으로 꼭 필요한 걸 생각하는 사람이 결국 더 큰 재물운을 가져가요. 오늘 잠깐이라도 그 미래를 상상해 보세요.",
+    "오늘은 {name}님이 돈을 어디에 쓰느냐에 따라, 하루의 만족도가 달라지는 날이에요. 나를 위해 쓰는 지출이라면, 그만큼 마음에도 투자해 주세요."
+  ];
+
+  // 힌트
   const loveHints = [
     "💡 너무 과하게 티내기보다는, 작은 관심 표현부터 시작해 보는 건 어떨까요?",
     "💡 연락 타이밍에 너무 집착하지 말기! 나만의 루틴을 지키는 사람이 더 매력적으로 보일 때가 많아요.",
@@ -105,10 +128,14 @@ document.addEventListener("DOMContentLoaded", function () {
     "💡 과거 탓, 운 탓보다는 오늘 내가 할 수 있는 작은 선택 하나에 집중해 보세요."
   ];
 
-  // ------------------------------
-  // 1-2. 점수가 낮을 때만 붙는 '주의'용 문장들
-  // ------------------------------
+  const moneyHints = [
+    "💡 오늘 쓴 돈을 간단히 적어 두면, 내 소비 패턴을 이해하는 데 큰 도움이 돼요.",
+    "💡 '진짜 필요한가?' 한 번만 더 물어보고 계산하기, 이 습관이 재물운을 지켜줘요.",
+    "💡 하고 싶은 공부나 경험에 쓰는 돈은, 나중에 더 큰 재물운으로 돌아올 수 있어요.",
+    "💡 충동구매 대신 위시리스트에 먼저 적어두기만 해도, 지출을 꽤 줄일 수 있어요."
+  ];
 
+  // 주의용 문장들
   const loveCautions = [
     "⚠ 오늘은 특히 조급한 마음으로 상대를 몰아붙이면 분위기가 금방 싸늘해질 수 있어요. 한 번 더 생각하고 말해 보세요.",
     "⚠ 사소한 말도 오해로 번지기 쉬운 날이에요. {name}님이 먼저 감정을 가라앉히고 천천히 이야기해 보는 게 좋아요.",
@@ -135,8 +162,14 @@ document.addEventListener("DOMContentLoaded", function () {
     "⚠ 남들 운세와 비교하면서 초조해할 필요는 없어요. 다만 오늘만큼은 중요한 일정을 두 번 세 번 확인해 두면 좋겠어요."
   ];
 
+  const moneyCautions = [
+    "⚠ 오늘은 특히 충동구매를 조심해야 하는 날이에요. 지갑을 열기 전에 한 번만 더 생각해 보세요.",
+    "⚠ 친구나 연인과 돈 얘기가 오갈 땐 농담이라도 선을 넘지 않는 게 좋아요. 작은 말에서 오해가 생길 수 있어요.",
+    "⚠ 기분이 다운됐다고 해서 카드부터 꺼내 들면 나중에 더 힘들어질 수 있어요. 돈 대신 다른 방법으로 스트레스를 풀어 보세요."
+  ];
+
   // ------------------------------
-  // 2. 기분 / 별자리 / 띠 / 연령대 → 점수 & 코멘트
+  // 2. 점수용 유틸
   // ------------------------------
 
   const moodInfoMap = {
@@ -371,6 +404,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (type === "love") score += 3;
     else if (type === "zodiac") score += 2;
     else if (type === "saju") score += 1;
+    else if (type === "money") score += 2;
 
     const randomDelta = Math.floor(Math.random() * 21) - 10; // -10 ~ +10
     score += randomDelta;
@@ -428,19 +462,17 @@ document.addEventListener("DOMContentLoaded", function () {
   fortuneBtn.addEventListener("click", function () {
     let name = nameInput.value.trim();
     const mood = moodSelect.value;
-    const zodiac = zodiacSelect.value;
-    const birthYearRaw = birthYearInput.value.trim();
+    const zodiac = zodiacSelect ? zodiacSelect.value : "";
+    const birthYearRaw = birthYearInput ? birthYearInput.value.trim() : "";
     const birthYear = birthYearRaw === "" ? null : Number(birthYearRaw);
-    const ageRaw = ageInput.value.trim();
+    const ageRaw = ageInput ? ageInput.value.trim() : "";
     const age = ageRaw === "" ? null : Number(ageRaw);
-
-    const type = document.querySelector(
-      'input[name="fortuneType"]:checked'
-    ).value;
 
     if (name === "") {
       name = "익명의 누군가";
     }
+
+    const type = pageType; // daily / love / money / zodiac / saju
 
     const moodInfo = getMoodInfo(mood);
     const zodiacInfo = getZodiacInfo(zodiac);
@@ -468,7 +500,6 @@ document.addEventListener("DOMContentLoaded", function () {
       if (moodInfo.advice) {
         hintText += " " + moodInfo.advice;
       }
-      // 점수가 낮을 때만 경고 문장 추가
       if (level === "low") {
         let caution = pickRandom(loveCautions).replace(/{name}/g, name);
         fortuneText += " " + caution;
@@ -520,7 +551,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const ageDailyLine = ageInfo.dailyLine
         ? " " + ageInfo.dailyLine.replace(/{name}/g, name)
         : "";
-      fortuneText = `[띠 운세 ${score}점 · ${levelLabel}${ageLabelText}] ${body}`;
+      fortuneText = `[사주(띠) 운세 ${score}점 · ${levelLabel}${ageLabelText}] ${body}`;
       hintText = pickRandom(sajuHints);
       hintText +=
         " 오늘은 " +
@@ -529,6 +560,22 @@ document.addEventListener("DOMContentLoaded", function () {
       hintText += ageDailyLine;
       if (level === "low") {
         const caution = pickRandom(sajuCautions);
+        fortuneText += " " + caution;
+      }
+    } else if (type === "money") {
+      const template = pickFortuneByLevel(moneyFortunes, level);
+      const body = template
+        .replace(/{name}/g, name)
+        .replace(/{mood}/g, mood);
+      const ageDailyLine = ageInfo.dailyLine
+        ? " " + ageInfo.dailyLine.replace(/{name}/g, name)
+        : "";
+      fortuneText = `[재물 운세 ${score}점 · ${levelLabel}${ageLabelText}] ${body}`;
+      hintText = pickRandom(moneyHints);
+      hintText += " " + (moodInfo.advice || "");
+      hintText += ageDailyLine;
+      if (level === "low") {
+        const caution = pickRandom(moneyCautions);
         fortuneText += " " + caution;
       }
     }
