@@ -1,1 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>재물 운세 💰</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="money">
+  <div id="app-container">
+    <div class="top-nav">
+      <div class="top-nav-title">FORTUNE HOUSE</div>
+      <div class="top-nav-links">
+        <a href="index.html">메뉴</a>
+        <a href="daily.html">오늘</a>
+        <a href="love.html">연애</a>
+        <a href="zodiac.html">별자리</a>
+        <a href="saju.html">사주</a>
+      </div>
+    </div>
+
+    <p class="page-tagline">Money Reading</p>
+    <h1>재물 운세</h1>
+    <p class="subtitle">
+      소비 습관, 수입, 알바·급여, 저축 등<br />
+      오늘의 돈 흐름과 주의할 점을 알려줘요.
+    </p>
+
+    <div class="card">
+      <!-- 폼 동일 -->
+      <div class="form-row">
+        <label for="nameInput">이름</label>
+        <input type="text" id="nameInput" placeholder="이름을 입력하세요" />
+      </div>
+
+      <div class="form-row">
+        <label for="moodSelect">오늘 기분</label>
+        <select id="moodSelect">
+          <option value="행복한">행복해요 😊</option>
+          <option value="설레는">설레요 💖</option>
+          <option value="평온한">그냥 그래요 🙂</option>
+          <option value="피곤한">피곤해요 😪</option>
+          <option value="살짝 우울한">우울해요 😢</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="ageInput">현재 나이 (선택)</label>
+        <input type="number" id="ageInput" placeholder="예: 20" min="1" max="120" />
+      </div>
+
+      <div class="form-row">
+        <label for="zodiacSelect">별자리 (선택)</label>
+        <select id="zodiacSelect">
+          <option value="">선택 안 함</option>
+          <option value="양자리">양자리 (Aries)</option>
+          <option value="황소자리">황소자리 (Taurus)</option>
+          <option value="쌍둥이자리">쌍둥이자리 (Gemini)</option>
+          <option value="게자리">게자리 (Cancer)</option>
+          <option value="사자자리">사자자리 (Leo)</option>
+          <option value="처녀자리">처녀자리 (Virgo)</option>
+          <option value="천칭자리">천칭자리 (Libra)</option>
+          <option value="전갈자리">전갈자리 (Scorpio)</option>
+          <option value="사수자리">사수자리 (Sagittarius)</option>
+          <option value="염소자리">염소자리 (Capricorn)</option>
+          <option value="물병자리">물병자리 (Aquarius)</option>
+          <option value="물고기자리">물고기자리 (Pisces)</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="birthYearInput">태어난 해 (띠 운세용, 선택)</label>
+        <input type="number" id="birthYearInput" placeholder="예: 2005" min="1900" max="2100" />
+      </div>
+
+      <button id="fortuneBtn">재물 운세 뽑기 ✨</button>
+      <p class="helper-text">※ 실제 투자·재정 판단에 쓰지 말고, 가볍게 참고만 해 주세요.</p>
+    </div>
+
+    <div id="resultCard" class="result-card hidden">
+      <p class="result-title">✨ 재물 운세 결과 ✨</p>
+      <p id="resultText" class="result-text"></p>
+      <p id="resultHint" class="result-hint"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
 
