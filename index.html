@@ -10,7 +10,7 @@
   <div id="app-container">
     <h1>오늘의 운세 뽑기 🔮</h1>
     <p class="subtitle">
-      이름, 기분, 별자리/띠 정보를 입력하고 오늘의 운세를 확인해 보세요! (재미용)
+      이름, 기분, 나이, 별자리/띠 정보를 입력하고 오늘의 운세를 확인해 보세요! (재미용)
     </p>
 
     <div class="card">
@@ -32,6 +32,18 @@
           <option value="피곤한">피곤해요 😪</option>
           <option value="살짝 우울한">우울해요 😢</option>
         </select>
+      </div>
+
+      <!-- ✅ 새로 추가된 나이 입력 -->
+      <div class="form-row">
+        <label for="ageInput">현재 나이 (선택)</label>
+        <input
+          type="number"
+          id="ageInput"
+          placeholder="예: 20"
+          min="1"
+          max="120"
+        />
       </div>
 
       <div class="form-row">
@@ -87,7 +99,7 @@
       </div>
 
       <button id="fortuneBtn">운세 뽑기 ✨</button>
-      <p class="helper-text">※ 실제 사주/점이 아니라 과제 & 재미용 랜덤 운세입니다.</p>
+      <p class="helper-text">※ 실제 사주/점이 아니라 과제 & 재미용 규칙+랜덤 운세입니다.</p>
     </div>
 
     <div id="resultCard" class="result-card hidden">
