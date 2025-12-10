@@ -1,3 +1,17 @@
+:root {
+  --bg-main: #05020b;
+  --bg-gradient-top: #301a4b;
+  --bg-gradient-bottom: #05020b;
+  --card-bg: rgba(18, 10, 34, 0.96);
+  --card-border: rgba(189, 142, 255, 0.35);
+  --accent: #f5c76b;
+  --accent-soft: rgba(245, 199, 107, 0.18);
+  --text-main: #f8edf9;
+  --text-sub: #b7a5cf;
+  --danger: #ff6b81;
+  --success: #7cf5b3;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,187 +20,113 @@
 
 body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: linear-gradient(135deg, #f9c5d1, #9795f0);
+  background:
+    radial-gradient(circle at top, var(--bg-gradient-top) 0, var(--bg-gradient-bottom) 45%, #020007 100%);
+  color: var(--text-main);
   min-height: 100vh;
+  padding: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 16px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* 살짝 반짝이는 별 느낌 */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.15) 0, transparent 40%),
+    radial-gradient(circle at 80% 10%, rgba(255, 255, 255, 0.08) 0, transparent 45%),
+    radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.09) 0, transparent 40%);
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: -1;
 }
 
 #app-container {
-  max-width: 480px;
+  max-width: 520px;
   width: 100%;
-  background: rgba(255, 255, 255, 0.92);
-  border-radius: 20px;
-  padding: 24px 20px 28px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  background: radial-gradient(circle at top, rgba(90, 55, 140, 0.4), rgba(8, 3, 20, 0.95));
+  border-radius: 24px;
+  padding: 20px 18px 22px;
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.7),
+    0 0 40px rgba(181, 126, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* 상단 네비게이션 */
+
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.top-nav-title {
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.top-nav-links {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.top-nav-links a {
+  font-size: 0.75rem;
+  text-decoration: none;
+  color: var(--text-sub);
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(0, 0, 0, 0.2);
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.top-nav-links a:hover {
+  color: var(--accent);
+  border-color: var(--accent-soft);
+  background: rgba(0, 0, 0, 0.45);
 }
 
 h1 {
   font-size: 1.6rem;
   text-align: center;
-  margin-bottom: 8px;
-}
-
-.subtitle {
-  font-size: 0.9rem;
-  text-align: center;
-  color: #666;
-  margin-bottom: 18px;
-}
-
-.card {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 16px 14px 18px;
-  border: 1px solid #f0f0f0;
-}
-
-.form-row {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 12px;
-}
-
-.form-row label,
-.label-title {
-  font-size: 0.9rem;
-  margin-bottom: 4px;
-  color: #444;
-}
-
-input[type="text"],
-select {
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  padding: 8px 10px;
-  font-size: 0.95rem;
-  outline: none;
-}
-
-input[type="text"]:focus,
-select:focus {
-  border-color: #f58aaa;
-  box-shadow: 0 0 0 2px rgba(245, 138, 170, 0.2);
-}
-
-.radio-group {
-  display: flex;
-  gap: 12px;
-  font-size: 0.9rem;
-}
-
-.radio-group label {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-#fortuneBtn {
-  margin-top: 8px;
-  width: 100%;
-  border: none;
-  border-radius: 999px;
-  padding: 10px 14px;
-  background: linear-gradient(135deg, #f973a2, #fbbf77);
-  color: #fff;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
-}
-
-#fortuneBtn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
-  filter: brightness(1.02);
-}
-
-#fortuneBtn:active {
-  transform: translateY(0);
-  box-shadow: none;
-}
-
-.result-card {
-  margin-top: 18px;
-  padding: 16px 14px 18px;
-  border-radius: 16px;
-  background: #fff7fb;
-  border: 1px solid #ffd3ec;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.18s ease, transform 0.18s ease;
-}
-
-.result-card.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.hidden {
-  display: none;
-}
-
-.result-title {
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 8px;
-}
-
-.result-text {
-  font-size: 0.95rem;
-  line-height: 1.5;
   margin-bottom: 6px;
 }
 
-.result-hint {
-  font-size: 0.85rem;
-  color: #888;
-}
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background: linear-gradient(135deg, #f9c5d1, #9795f0);
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 16px;
-}
-
-#app-container {
-  max-width: 480px;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.92);
-  border-radius: 20px;
-  padding: 24px 20px 28px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-}
-
-h1 {
-  font-size: 1.6rem;
+.page-tagline {
   text-align: center;
-  margin-bottom: 8px;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 4px;
 }
 
 .subtitle {
   font-size: 0.9rem;
   text-align: center;
-  color: #666;
+  color: var(--text-sub);
   margin-bottom: 18px;
 }
 
+/* 카드 공통 */
+
 .card {
-  background: #ffffff;
-  border-radius: 16px;
+  background: var(--card-bg);
+  border-radius: 18px;
   padding: 16px 14px 18px;
-  border: 1px solid #f0f0f0;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
 }
 
 .form-row {
@@ -197,59 +137,67 @@ h1 {
 
 .form-row label,
 .label-title {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   margin-bottom: 4px;
-  color: #444;
+  color: var(--text-sub);
 }
 
 input[type="text"],
 input[type="number"],
 select {
-  border-radius: 10px;
-  border: 1px solid #ddd;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(8, 4, 18, 0.85);
   padding: 8px 10px;
   font-size: 0.95rem;
   outline: none;
+  color: var(--text-main);
+}
+
+input::placeholder {
+  color: rgba(180, 160, 210, 0.65);
 }
 
 input[type="text"]:focus,
 input[type="number"]:focus,
 select:focus {
-  border-color: #f58aaa;
-  box-shadow: 0 0 0 2px rgba(245, 138, 170, 0.2);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent-soft);
 }
 
-.radio-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 12px;
-  font-size: 0.9rem;
+.helper-text {
+  margin-top: 8px;
+  font-size: 0.8rem;
+  color: var(--text-sub);
 }
 
-.radio-group label {
-  display: flex;
-  align-items: center;
-  gap: 4px;
+/* 버튼 */
+
+button {
+  font-family: inherit;
 }
 
 #fortuneBtn {
-  margin-top: 8px;
+  margin-top: 10px;
   width: 100%;
   border: none;
   border-radius: 999px;
   padding: 10px 14px;
-  background: linear-gradient(135deg, #f973a2, #fbbf77);
-  color: #fff;
+  background: linear-gradient(135deg, #f5c76b, #d37bff);
+  color: #1b0f2a;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.98rem;
   cursor: pointer;
-  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    filter 0.12s ease;
 }
 
 #fortuneBtn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18);
-  filter: brightness(1.02);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.7);
+  filter: brightness(1.03);
 }
 
 #fortuneBtn:active {
@@ -257,18 +205,14 @@ select:focus {
   box-shadow: none;
 }
 
-.helper-text {
-  margin-top: 6px;
-  font-size: 0.8rem;
-  color: #888;
-}
+/* 결과 카드 */
 
 .result-card {
   margin-top: 18px;
   padding: 16px 14px 18px;
-  border-radius: 16px;
-  background: #fff7fb;
-  border: 1px solid #ffd3ec;
+  border-radius: 18px;
+  background: radial-gradient(circle at top, rgba(245, 199, 107, 0.12), rgba(8, 3, 20, 0.92));
+  border: 1px solid rgba(245, 199, 107, 0.32);
   opacity: 0;
   transform: translateY(6px);
   transition: opacity 0.18s ease, transform 0.18s ease;
@@ -286,211 +230,70 @@ select:focus {
 .result-title {
   font-weight: 700;
   text-align: center;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .result-text {
-  font-size: 0.95rem;
-  line-height: 1.5;
+  font-size: 0.93rem;
+  line-height: 1.6;
   margin-bottom: 6px;
 }
 
 .result-hint {
   font-size: 0.85rem;
-  color: #888;
+  color: var(--text-sub);
 }
-document.addEventListener("DOMContentLoaded", function () {
-  const nameInput = document.getElementById("nameInput");
-  const moodSelect = document.getElementById("moodSelect");
-  const zodiacSelect = document.getElementById("zodiacSelect");
-  const birthYearInput = document.getElementById("birthYearInput");
 
-  const fortuneBtn = document.getElementById("fortuneBtn");
-  const resultCard = document.getElementById("resultCard");
-  const resultText = document.getElementById("resultText");
-  const resultHint = document.getElementById("resultHint");
+/* 메인 메뉴 전용 */
 
-  // 연애 운세 리스트 (다양하게 확장)
-  const loveFortunes = [
-    "{name}님, 오늘은 예상 못 한 사람에게서 {mood} 마음을 느낄 수 있어요. 작은 대화가 인연의 시작이 될지도 몰라요. 💕",
-    "평소와 비슷한 하루 같지만, {name}님의 따뜻한 한 마디가 누군가의 심장을 살짝 흔들 거예요. 솔직한 말 한마디가 큰 용기가 될 수 있어요. 💌",
-    "{mood} 에너지가 주변으로 퍼지는 날이에요. {name}님의 웃는 얼굴만으로도 누군가에겐 설레는 순간이 될 거예요. ✨",
-    "기대하지 않았던 연락이나 DM이 올 수 있는 날이에요. {name}님이 먼저 가볍게 안부를 물어봐도 좋아요. 대화의 물꼬를 여는 건 좋은 선택! 📱",
-    "답장이 느리다고 해서 마음이 없는 건 아닐 거예요. {name}님의 매력은 천천히 스며드는 타입. 여유 있게 기다려 보는 것도 연애 운을 올려줘요. 🌙",
-    "오늘은 {name}님의 솔직함이 가장 큰 매력이에요. 돌려 말하기보다는, 적당히 진심을 담은 표현이 상대의 마음을 누를 거예요. 🔓",
-    "{name}님 주변 가까운 사람들 속에 이미 눈여겨보는 사람이 있을지도 몰라요. 친구에서 연인으로 발전할 기운이 살짝 보이는 날이에요. 🌸",
-    "연락만 기다리지 말고, {name}님이 먼저 말 걸어보는 것도 좋아요. 가벼운 이모티콘 하나가 분위기를 따뜻하게 바꿔 줄 수 있어요. 🫶",
-    "오늘은 {name}님이 스스로를 사랑할수록 연애 운도 함께 올라가는 날이에요. 맛있는 거 하나라도 자신에게 선물해 보세요. 🍰",
-    "{mood} 상태라면, 귀엽게 투정 한 번 부려 보는 것도 괜찮아요. {name}님의 솔직한 모습에 상대도 더 마음을 열 수 있어요. 😌",
-    "예상치 못한 곳에서 시선이 마주치는 순간이 생길 수 있어요. {name}님의 사소한 행동 하나가 누군가에겐 계속 떠오르는 장면이 될 거예요. 🌟",
-    "오늘은 과거의 인연보다 새로운 인연 쪽에 운이 더 강하게 들어와 있어요. {name}님이 한 번도 해보지 않았던 선택을 해 보는 것도 좋겠어요. 🌈"
-  ];
+.menu-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 10px;
+}
 
-  // 오늘의 전체 운세 리스트
-  const dailyFortunes = [
-    "{name}님의 오늘 하루는 전반적으로 {mood} 흐름이에요. 너무 조급해하지 말고, 내 속도대로 움직이면 좋은 결과가 따라올 거예요. 🌈",
-    "작은 선택 하나가 생각보다 크게 돌아오는 날이에요. {name}님이 진짜 하고 싶은 방향 쪽으로 한 걸음 내딛어 보세요. 🚶‍♀️",
-    "컨디션이 조금 애매하더라도, {name}님이 했던 노력들이 서서히 쌓여 가는 시기예요. 오늘은 '적당히'만 해도 충분히 잘하고 있는 거예요. ⭐",
-    "오늘은 {name}님의 집중력이 평소보다 좋아지는 운이에요. 과제나 공부를 조금만 밀어붙이면 성취감을 느낄 수 있어요. 📚",
-    "마음이 살짝 흔들리는 일이 있을 수 있지만, 그 과정에서 {name}님이 진짜 원하는 게 뭔지 더 분명해질 거예요. 🌱",
-    "예상 못 한 사람에게서 도움이나 위로의 말을 들을 수 있는 날이에요. {name}님이 평소에 베풀었던 것들이 천천히 돌아오는 중일지도 몰라요. 🤝",
-    "오늘은 '완벽함'보다는 '지속함'이 더 중요해요. 조금씩이라도 움직인다면 {name}님의 내일은 분명 더 가벼워질 거예요. ⏳",
-    "{name}님이 평소에 별생각 없이 한 행동이 누군가에게 좋은 영향을 줄 수 있는 날이에요. 사소한 친절이 큰 힘이 됩니다. 💬",
-    "기대했던 일에서 결과가 조금 늦게 나올 수 있지만, 흐름은 나쁘지 않아요. {name}님이 포기하지 않는다면 좋은 방향으로 흘러갈 운이에요. 🌊",
-    "오늘은 혼자만의 시간이 은근히 도움이 되는 날이에요. 짧은 산책이나 카페에서의 휴식이 {name}님의 머릿속을 정리해 줄 거예요. ☕",
-    "생각보다 몸과 마음이 지쳐 있을 수 있어요. {name}님이 스스로에게 너그러워질수록 컨디션도 회복 속도가 빨라질 거예요. 💤",
-    "오늘 일어난 일들을 짧게 메모해 두면, 나중에 {name}님이 성장한 걸 확인하는 데 큰 도움이 될 거예요. ✍️"
-  ];
+.menu-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 12px 12px 14px;
+  border: 1px solid var(--card-border);
+  text-decoration: none;
+  color: var(--text-main);
+  display: block;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+}
 
-  // 별자리 운세 리스트
-  const zodiacFortunes = [
-    "{sign}인 {name}님, 오늘은 자신감이 빛나는 날이에요. 하고 싶은 말을 조금 더 용기 내서 꺼내 보세요. 사람들에게 강한 인상을 남길 수 있어요. 💫",
-    "{sign}의 안정적인 에너지가 도와주는 날이에요. {name}님이 꾸준히 해 온 것들이 서서히 인정받기 시작할 거예요. 🌿",
-    "{sign}인 {name}님은 오늘 유난히 감이 좋은 편이에요. 첫 느낌이 괜히 느껴지는 게 아니니, 직감도 한 번 믿어 봐도 좋아요. 🔮",
-    "{sign}의 장점인 집중력과 책임감이 빛을 발하는 날이에요. 한 번 시작한 일은 끝까지 밀어붙이면 좋은 결과로 이어질 거예요. 📌",
-    "오늘 {sign}인 {name}님은 사람들과의 대화 속에서 힌트를 많이 얻게 돼요. 가볍게 나눈 이야기 속에 필요한 메시지가 숨어 있을지도 몰라요. 💬",
-    "{sign}의 매력인 따뜻함이 잘 드러나는 하루예요. {name}님이 주변 사람들에게 건네는 말 한마디가 큰 위로가 될 수 있어요. 🤍",
-    "새로운 계획을 세우기 좋은 날이에요. {sign}인 {name}님이 머릿속에만 두었던 생각들을 조금씩 현실로 옮겨 봐도 좋아요. 🧭",
-    "{sign}의 특유의 센스와 유머가 돋보이는 날이에요. 사람들 사이에서 {name}님이 분위기 메이커 역할을 하게 될지도 몰라요. 😄",
-    "오늘 {sign}인 {name}님은 평소보다 감성이 풍부해질 수 있어요. 음악이나 글, 그림 같은 감성적인 활동을 해 보면 마음이 편해질 거예요. 🎧",
-    "{sign}의 균형 감각이 강해지는 날이에요. {name}님이 고민했던 선택지 사이에서, 어느 정도 답이 스스로 정리되는 느낌을 받을 수 있어요. ⚖️",
-    "오늘은 {sign}인 {name}님에게 작은 변화를 주기 좋은 날이에요. 머리 스타일이나 옷 스타일을 살짝 바꿔 보면 기분 전환에 도움이 될 거예요. 👗",
-    "생각보다 운이 조용히 {name}님 편을 들어주는 날이에요. {sign}의 여유로운 에너지를 믿고, 너무 걱정하지 말고 하루를 흘려보내도 괜찮아요. 🌙"
-  ];
+.menu-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.7);
+  border-color: var(--accent-soft);
+}
 
-  // 띠/사주 느낌 운세 리스트
-  const sajuFortunes = [
-    "{animal}인 {name}님은 오늘 사람 운이 괜찮은 날이에요. 혼자 끙끙대기보다는 주변에 살짝 도움을 요청해 보세요. 의외로 쉽게 해결될 수 있어요. 🤝",
-    "{animal}의 끈기 있는 기운이 강하게 들어오는 날이에요. {name}님이 포기하지 않는 한, 느리더라도 꾸준히 앞으로 나아가게 될 거예요. 🐾",
-    "오늘은 {animal}인 {name}님에게 정리의 기운이 들어와 있어요. 책상, 폴더, 메모 하나만 정리해도 머릿속이 훨씬 가벼워질 거예요. 🧹",
-    "{animal}의 장점인 집중력이 발휘되는 날이에요. 해야 할 일을 먼저 처리해 두면, 나머지 시간은 여유롭게 쓸 수 있을 거예요. ⏰",
-    "생각보다 운이 조용하게 {name}님을 지켜 주는 날이에요. 큰 변화는 없지만, 큰 문제도 없는 안정적인 흐름이에요. 이런 날엔 휴식을 챙기는 게 좋아요. 🌤️",
-    "{animal}인 {name}님은 오늘 직감이 좋은 편이에요. 사람과 관련된 선택에서는 머리보다는 마음이 편한 쪽을 한 번 골라 보세요. 🧠💖",
-    "과거 일을 괜히 곱씹게 될 수 있는 날이에요. 하지만 {animal}의 성실한 기운 덕분에, {name}님은 같은 실수를 반복하지 않을 거예요. 경험이 곧 자산이 됩니다. 📚",
-    "오늘은 {animal}인 {name}님이 어울리는 사람과 어울릴수록 운이 올라가는 날이에요. 편안한 사람을 만나거나, 좋아하는 사람과 연락해 보세요. 📱",
-    "{animal} 특유의 에너지 덕분에, 평소보다 체력과 회복력이 좋아질 수 있어요. 짧은 산책이나 가벼운 운동도 {name}님에게 큰 도움이 될 거예요. 🏃‍♀️",
-    "사소한 지출이 조금 늘어날 수 있는 날이에요. 다만 {name}님에게 진짜 필요한 것인지 한 번만 더 생각하고 쓰면 괜찮아요. 💸",
-    "{animal}인 {name}님은 오늘 유난히 감정 기복이 생길 수 있어요. 잠깐 숨 고르기만 잘 해도 흐름이 훨씬 부드러워질 거예요. 🌬️",
-    "오늘은 새로운 걸 무리해서 시작하기보다는, {name}님이 이미 하고 있는 것들을 조금만 더 다듬는 데 운이 들어와 있어요. 마무리에 신경 써 보세요. 🎀"
-  ];
+.menu-card-title {
+  font-size: 1.02rem;
+  margin-bottom: 4px;
+}
 
-  // 힌트/팁 문장
-  const loveHints = [
-    "💡 너무 과하게 티내기보다는, 작은 관심 표현부터 시작해 보는 건 어떨까요?",
-    "💡 연락 타이밍에 너무 집착하지 말기! 나만의 루틴을 지키는 사람이 더 매력적으로 보일 때가 많아요.",
-    "💡 오늘은 내 매력 포인트 하나만 더 살려보기. 헤어/향수/패션 중 하나라도 신경 써보면 좋아요.",
-    "💡 상대의 반응에만 집중하기보다는, 내가 진짜 원하는 관계가 뭔지도 한 번 떠올려 보세요.",
-    "💡 답장이 늦어도 나까지 함께 무너질 필요는 없어요. 연애도 결국은 나를 아끼는 마음에서 시작돼요."
-  ];
+.menu-card-tag {
+  font-size: 0.75rem;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
 
-  const dailyHints = [
-    "💡 오늘 해야 할 일 중 하나만 확실하게 끝내도, 충분히 잘한 하루예요.",
-    "💡 컨디션이 애매하면, 작은 휴식이나 간식으로 나를 먼저 챙겨보세요.",
-    "💡 비교보다는 기록! 오늘 느낀 감정을 한 줄이라도 메모해보면 좋을 것 같아요.",
-    "💡 너무 완벽하려고 하기보다는, '대충 80점' 정도만 해도 괜찮다고 생각해 보세요.",
-    "💡 하기 싫은 일은 5분만 해 보기. 시작이 되면 생각보다 더 오래 할 수 있을 거예요."
-  ];
+.menu-card-desc {
+  font-size: 0.85rem;
+  color: var(--text-sub);
+}
 
-  const zodiacHints = [
-    "💡 별자리는 재미로 가볍게 참고만 하고, 결국 내 선택이 가장 중요해요.",
-    "💡 오늘 별자리 운세를 계기로, 나의 장단점을 한 번 정리해 보는 것도 좋아요.",
-    "💡 별자리 성향이랑 다르게 행동해도 괜찮아요. {sign}인 {name}님만의 스타일이 더 중요하니까요.",
-    "💡 운세가 좋다고 해서 억지로 뭔가를 만들 필요는 없어요. 편안한 흐름 속에서 기회를 캐치해 보세요."
-  ];
+/* 반응형 */
 
-  const sajuHints = [
-    "💡 띠 운세는 재미로만 보고, 너무 진지하게 받아들이지 않는 게 좋아요.",
-    "💡 올해 나에게 필요한 건 뭔지 한 번 적어 보면서, 스스로의 '운'을 만들어 보세요.",
-    "💡 힘든 날엔 운세보다도, 충분한 휴식과 따뜻한 말 한마디가 더 큰 힘이 돼요.",
-    "💡 과거 탓, 운 탓보다는 오늘 내가 할 수 있는 작은 선택 하나에 집중해 보세요."
-  ];
-
-  // 배열에서 랜덤 요소 하나 뽑기
-  function pickRandom(arr) {
-    const index = Math.floor(Math.random() * arr.length);
-    return arr[index];
+@media (min-width: 640px) {
+  #app-container {
+    padding: 24px 22px 26px;
   }
 
-  // 띠 계산 함수 (간단 버전)
-  function getZodiacAnimal(year) {
-    if (!year || isNaN(year)) {
-      return "알 수 없는 띠";
-    }
-    const animals = [
-      "쥐띠",
-      "소띠",
-      "호랑이띠",
-      "토끼띠",
-      "용띠",
-      "뱀띠",
-      "말띠",
-      "양띠",
-      "원숭이띠",
-      "닭띠",
-      "개띠",
-      "돼지띠"
-    ];
-    // 2008년을 쥐띠 기준으로 계산
-    const index = (year - 2008) % 12;
-    const fixedIndex = (index + 12) % 12;
-    return animals[fixedIndex];
+  .menu-grid {
+    grid-template-columns: 1fr 1fr;
   }
-
-  fortuneBtn.addEventListener("click", function () {
-    let name = nameInput.value.trim();
-    const mood = moodSelect.value;
-    const zodiac = zodiacSelect.value;
-    const birthYearRaw = birthYearInput.value.trim();
-    const birthYear = birthYearRaw === "" ? null : Number(birthYearRaw);
-
-    const type = document.querySelector(
-      'input[name="fortuneType"]:checked'
-    ).value;
-
-    if (name === "") {
-      name = "익명의 누군가";
-    }
-
-    let fortuneText = "";
-    let hintText = "";
-
-    if (type === "love") {
-      const template = pickRandom(loveFortunes);
-      fortuneText = template
-        .replace(/{name}/g, name)
-        .replace(/{mood}/g, mood);
-      hintText = pickRandom(loveHints);
-    } else if (type === "daily") {
-      const template = pickRandom(dailyFortunes);
-      fortuneText = template
-        .replace(/{name}/g, name)
-        .replace(/{mood}/g, mood);
-      hintText = pickRandom(dailyHints);
-    } else if (type === "zodiac") {
-      const sign = zodiac || "비밀 별자리";
-      const template = pickRandom(zodiacFortunes);
-      fortuneText = template
-        .replace(/{name}/g, name)
-        .replace(/{sign}/g, sign);
-      let hintTemplate = pickRandom(zodiacHints);
-      hintText = hintTemplate
-        .replace(/{name}/g, name)
-        .replace(/{sign}/g, sign);
-    } else if (type === "saju") {
-      const animal = getZodiacAnimal(birthYear);
-      const template = pickRandom(sajuFortunes);
-      fortuneText = template
-        .replace(/{name}/g, name)
-        .replace(/{animal}/g, animal);
-      hintText = pickRandom(sajuHints);
-    }
-
-    resultText.textContent = fortuneText;
-    resultHint.textContent = hintText;
-
-    resultCard.classList.remove("hidden");
-    void resultCard.offsetWidth; // 애니메이션 리셋용
-    resultCard.classList.add("show");
-  });
-});
-
+}
