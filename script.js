@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const nameInput = document.getElementById("nameInput");
   const moodSelect = document.getElementById("moodSelect");
-  const ageInput = document.getElementById("ageInput");
   const zodiacSelect = document.getElementById("zodiacSelect");
   const birthYearInput = document.getElementById("birthYearInput");
 
@@ -15,12 +14,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const resultText = document.getElementById("resultText");
   const resultHint = document.getElementById("resultHint");
 
-  if (!fortuneBtn) return;
+  if (!fortuneBtn || !resultCard || !resultText || !resultHint) return;
 
-  // ------------------------------
-  // 1. 운세 문장들
-  // ------------------------------
+  /* ========================
+      1. 운세 문장 모음
+  ========================= */
 
+  // 연애 운세
   const loveFortunes = [
     "{name}님, 오늘은 예상 못 한 사람에게서 {mood} 마음을 느낄 수 있어요. 작은 대화가 인연의 시작이 될지도 몰라요. 💕",
     "평소와 비슷한 하루 같지만, {name}님의 따뜻한 한 마디가 누군가의 심장을 살짝 흔들 거예요. 솔직한 말 한마디가 큰 용기가 될 수 있어요. 💌",
@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "오늘은 과거의 인연보다 새로운 인연 쪽에 운이 더 강하게 들어와 있어요. {name}님이 한 번도 해보지 않았던 선택을 해 보는 것도 좋겠어요. 🌈"
   ];
 
+  // 오늘의 운세
   const dailyFortunes = [
     "{name}님의 오늘 하루는 전반적으로 {mood} 흐름이에요. 너무 조급해하지 말고, 내 속도대로 움직이면 좋은 결과가 따라올 거예요. 🌈",
     "작은 선택 하나가 생각보다 크게 돌아오는 날이에요. {name}님이 진짜 하고 싶은 방향 쪽으로 한 걸음 내딛어 보세요. 🚶‍♀️",
@@ -51,6 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "오늘 일어난 일들을 짧게 메모해 두면, 나중에 {name}님이 성장한 걸 확인하는 데 큰 도움이 될 거예요. ✍️"
   ];
 
+  // 별자리 운세
   const zodiacFortunes = [
     "{sign}인 {name}님, 오늘은 자신감이 빛나는 날이에요. 하고 싶은 말을 조금 더 용기 내서 꺼내 보세요. 사람들에게 강한 인상을 남길 수 있어요. 💫",
     "{sign}의 안정적인 에너지가 도와주는 날이에요. {name}님이 꾸준히 해 온 것들이 서서히 인정받기 시작할 거예요. 🌿",
@@ -66,6 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "생각보다 운이 조용히 {name}님 편을 들어주는 날이에요. {sign}의 여유로운 에너지를 믿고, 너무 걱정하지 말고 하루를 흘려보내도 괜찮아요. 🌙"
   ];
 
+  // 사주(띠) 운세
   const sajuFortunes = [
     "{animal}인 {name}님은 오늘 사람 운이 괜찮은 날이에요. 혼자 끙끙대기보다는 주변에 살짝 도움을 요청해 보세요. 의외로 쉽게 해결될 수 있어요. 🤝",
     "{animal}의 끈기 있는 기운이 강하게 들어오는 날이에요. {name}님이 포기하지 않는 한, 느리더라도 꾸준히 앞으로 나아가게 될 거예요. 🐾",
@@ -77,11 +80,11 @@ document.addEventListener("DOMContentLoaded", function () {
     "오늘은 {animal}인 {name}님이 어울리는 사람과 어울릴수록 운이 올라가는 날이에요. 편안한 사람을 만나거나, 좋아하는 사람과 연락해 보세요. 📱",
     "{animal} 특유의 에너지 덕분에, 평소보다 체력과 회복력이 좋아질 수 있어요. 짧은 산책이나 가벼운 운동도 {name}님에게 큰 도움이 될 거예요. 🏃‍♀️",
     "사소한 지출이 조금 늘어날 수 있는 날이에요. 다만 {name}님에게 진짜 필요한 것인지 한 번만 더 생각하고 쓰면 괜찮아요. 💸",
-    "{animal}인 {name}님은 오늘 유난히 감정 기복이 생길 수 있어요. 잠깐 숨 고르기만 잘 해도 흐름이 훨씬 부드러워질 거예요. 🌬️",
+    "{animal}인 {name}님은 오늘 유난히 감정 기복이 생길 수 있어요. 잠깐 숨 고르기만 잘 해도 흐름이 훨씬 부드러질 거예요. 🌬️",
     "오늘은 새로운 걸 무리해서 시작하기보다는, {name}님이 이미 하고 있는 것들을 조금만 더 다듬는 데 운이 들어와 있어요. 마무리에 신경 써 보세요. 🎀"
   ];
 
-  // 재물운
+  // 재물 운세
   const moneyFortunes = [
     "{name}님의 오늘 재물운은 {mood} 흐름이에요. 크게 들어오는 돈보다는, 새어 나가는 돈을 잘 막는 게 핵심이에요. 💰",
     "작은 수입이나 알바, 용돈, 급여 중에서 예상 못 한 부분이 생길 수 있어요. {name}님이 했던 노력이 조금은 숫자로 보일 수 있는 날이에요.",
@@ -97,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "오늘은 {name}님이 돈을 어디에 쓰느냐에 따라, 하루의 만족도가 달라지는 날이에요. 나를 위해 쓰는 지출이라면, 그만큼 마음에도 투자해 주세요."
   ];
 
-  // 힌트
+  // 힌트들
   const loveHints = [
     "💡 너무 과하게 티내기보다는, 작은 관심 표현부터 시작해 보는 건 어떨까요?",
     "💡 연락 타이밍에 너무 집착하지 말기! 나만의 루틴을 지키는 사람이 더 매력적으로 보일 때가 많아요.",
@@ -135,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "💡 충동구매 대신 위시리스트에 먼저 적어두기만 해도, 지출을 꽤 줄일 수 있어요."
   ];
 
-  // 주의용 문장들
+  // “주의해라” 계열 문장들
   const loveCautions = [
     "⚠ 오늘은 특히 조급한 마음으로 상대를 몰아붙이면 분위기가 금방 싸늘해질 수 있어요. 한 번 더 생각하고 말해 보세요.",
     "⚠ 사소한 말도 오해로 번지기 쉬운 날이에요. {name}님이 먼저 감정을 가라앉히고 천천히 이야기해 보는 게 좋아요.",
@@ -168,10 +171,11 @@ document.addEventListener("DOMContentLoaded", function () {
     "⚠ 기분이 다운됐다고 해서 카드부터 꺼내 들면 나중에 더 힘들어질 수 있어요. 돈 대신 다른 방법으로 스트레스를 풀어 보세요."
   ];
 
-  // ------------------------------
-  // 2. 점수용 유틸
-  // ------------------------------
+  /* ========================
+      2. 점수 계산에 쓰는 정보
+  ========================= */
 
+  // 기분 → 점수/조언
   const moodInfoMap = {
     "행복한": {
       scoreDelta: 15,
@@ -202,6 +206,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
   }
 
+  // 별자리 → 4원소 + 점수/설명
   function getZodiacInfo(zodiac) {
     if (!zodiac) {
       return {
@@ -245,6 +250,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return { scoreDelta, label, trait };
   }
 
+  // 띠 계산
   function getAnimalInfo(year) {
     if (!year || isNaN(year)) {
       return {
@@ -333,8 +339,9 @@ document.addEventListener("DOMContentLoaded", function () {
     return { animal, scoreDelta, trait };
   }
 
-  function getAgeInfo(age) {
-    if (!age || isNaN(age)) {
+  // 태어난 해 → 연령대 추정
+  function getAgeInfoFromBirthYear(year) {
+    if (!year || isNaN(year)) {
       return {
         label: "비밀 연령대",
         scoreDelta: 0,
@@ -344,6 +351,9 @@ document.addEventListener("DOMContentLoaded", function () {
           "현재 삶에서 제일 중요한 영역 하나를 골라, 그 부분에 이 운세를 가볍게 적용해 보세요."
       };
     }
+
+    const nowYear = new Date().getFullYear();
+    const age = nowYear - year;
 
     if (age <= 18) {
       return {
@@ -393,6 +403,45 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  /* ========================
+      3. 랜덤 대신 씨드 기반 도입
+  ========================= */
+
+  function getTodayKey() {
+    const today = new Date();
+    const y = today.getFullYear();
+    const m = String(today.getMonth() + 1).padStart(2, "0");
+    const d = String(today.getDate()).padStart(2, "0");
+    return y + "-" + m + "-" + d;
+  }
+
+  function makeSeed(str) {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = (hash * 31 + str.charCodeAt(i)) | 0;
+    }
+    if (hash < 0) hash = -hash;
+    return hash;
+  }
+
+  let globalSeed = 1;
+
+  function resetSeed(str) {
+    const base = makeSeed(str);
+    globalSeed = base === 0 ? 1 : base;
+  }
+
+  function nextSeedInt(max) {
+    // 간단한 LCG 방식
+    globalSeed = (globalSeed * 1103515245 + 12345) & 0x7fffffff;
+    if (!max || max <= 0) return globalSeed;
+    return globalSeed % max;
+  }
+
+  /* ========================
+      4. 점수/레벨/랜덤 선택
+  ========================= */
+
   function calcScore(type, moodInfo, zodiacInfo, animalInfo, ageInfo) {
     let score =
       50 +
@@ -406,7 +455,7 @@ document.addEventListener("DOMContentLoaded", function () {
     else if (type === "saju") score += 1;
     else if (type === "money") score += 2;
 
-    const randomDelta = Math.floor(Math.random() * 21) - 10; // -10 ~ +10
+    const randomDelta = nextSeedInt(21) - 10; // -10 ~ +10
     score += randomDelta;
 
     if (score < 0) score = 0;
@@ -428,7 +477,8 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
   function pickRandom(arr) {
-    const index = Math.floor(Math.random() * arr.length);
+    if (!arr || arr.length === 0) return "";
+    const index = nextSeedInt(arr.length);
     return arr[index];
   }
 
@@ -455,9 +505,9 @@ document.addEventListener("DOMContentLoaded", function () {
     return pickRandom(subset);
   }
 
-  // ------------------------------
-  // 3. 버튼 클릭 시 운세 생성
-  // ------------------------------
+  /* ========================
+      5. 버튼 클릭 시 동작
+  ========================= */
 
   fortuneBtn.addEventListener("click", function () {
     let name = nameInput.value.trim();
@@ -465,8 +515,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const zodiac = zodiacSelect ? zodiacSelect.value : "";
     const birthYearRaw = birthYearInput ? birthYearInput.value.trim() : "";
     const birthYear = birthYearRaw === "" ? null : Number(birthYearRaw);
-    const ageRaw = ageInput ? ageInput.value.trim() : "";
-    const age = ageRaw === "" ? null : Number(ageRaw);
+    const ageInfo = getAgeInfoFromBirthYear(birthYear);
 
     if (name === "") {
       name = "익명의 누군가";
@@ -477,7 +526,20 @@ document.addEventListener("DOMContentLoaded", function () {
     const moodInfo = getMoodInfo(mood);
     const zodiacInfo = getZodiacInfo(zodiac);
     const animalInfo = getAnimalInfo(birthYear);
-    const ageInfo = getAgeInfo(age);
+
+    const seedKey =
+      type +
+      "|" +
+      getTodayKey() +
+      "|" +
+      name +
+      "|" +
+      (birthYear || 0) +
+      "|" +
+      mood +
+      "|" +
+      (zodiac || "");
+    resetSeed(seedKey);
 
     const score = calcScore(type, moodInfo, zodiacInfo, animalInfo, ageInfo);
     const level = getLevel(score);
@@ -580,11 +642,12 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
 
+    // 화면에 출력
     resultText.textContent = fortuneText;
     resultHint.textContent = hintText;
 
     resultCard.classList.remove("hidden");
-    void resultCard.offsetWidth;
+    void resultCard.offsetWidth; // 애니메이션 리셋
     resultCard.classList.add("show");
   });
 });
